@@ -1,18 +1,20 @@
-import socket
+import this
+from network.tcp import *
 
 # file: client.py
 # author: 0xChristopher
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = socket.gethostbyname("127.0.0.1")
-port = 54000
-
 def main():
-    print(host)
+    newTcp = Tcp()
 
-    s.connect((host, port))
-    s.send(b'Hello')
-    print(s.recv(4096))
-    s.close()
+    print(newTcp.getHost())
+
+    while (True):
+        fId = input("Enter function id: ")
+
+        if (fId != "exit"):
+            newTcp.send(fId)
+        else :
+            break
 
 main()
