@@ -8,10 +8,12 @@ import queue
 # @brief
 ##
 
+# Queue to temporarily store messages from the server
 msgQueue = queue.Queue(maxsize = 100)
 
 class Listener(threading.Thread):
-    # Thread constructor
+    # Functions
+    # @brief Thread constructor
     def __init__(self, threadName, threadId, socket):
         threading.Thread.__init__(self)
         self.threadName = threadName
@@ -20,7 +22,7 @@ class Listener(threading.Thread):
         self.listening = True
         self.q = msgQueue
 
-    # The run() function determines what the thread will do while running
+    # @brief The run() function determines what the thread will do while running
     def run(self):
         # Thread loop for listening
         while (self.listening):
@@ -32,6 +34,6 @@ class Listener(threading.Thread):
             except:
                 pass
 
-    # The endThread() function terminates the thread
+    # @brief The endThread() function terminates the thread
     def endThread(self):
         self.listening = False
