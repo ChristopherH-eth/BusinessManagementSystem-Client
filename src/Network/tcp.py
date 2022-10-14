@@ -20,7 +20,13 @@ class Tcp:
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.host = socket.gethostbyname(host)
         self.port = 54000
-        self.s.connect((self.host, self.port))
+
+        try:
+            self.s.connect((self.host, self.port))
+        except:
+            print("Server connection error, could not connect to server")
+            return
+
         self.listener = Listener(listenerName, listenerId, self.s)
         self.listener.start()
 

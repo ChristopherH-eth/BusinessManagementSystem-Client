@@ -1,5 +1,4 @@
 # Imports
-import enum
 from Network.tcp import *
 from Network.listen import msgQueue
 from time import sleep
@@ -21,15 +20,22 @@ age = "32"
 idNumber = "123456"
 
 # Functions
-# Main working loop
 def main():
-    newTcp = Tcp()
-    running = True
-
     print("Welcome to Business Management System v1.0.0")
-    print("Connecting to host at: " + newTcp.getHost())
+    print("Connecting to server")
     print("Waiting for response...")
+
+    running = False # Set 'running' to false until we validate our connection to the server
+    newTcp = Tcp()
     sleep(5) # Wait for server connected message
+
+    # Make sure we have a working connection to the server
+    if (msgQueue.empty() == True):
+        print("Server connection error, no response from server")
+        return
+    else:
+        running = True
+
     newTcp.receive()
 
     # Main running loop
@@ -37,8 +43,8 @@ def main():
         if (msgQueue.empty() == True):
             fId = input("Enter function id: ")
 
-            # Check if an 'exit' command was given
-            if (fId != "exit"):
+            # Check if an 'exit' or 'shutdown' command was given
+            if (fId != "exit" and fId != "shutdown"):
                 newTcp.connect()
                 # Check submitted function id against valid function ids
                 if (FuncUtil.isValid(FuncUtil, fId)):
@@ -79,4 +85,5 @@ def main():
         else:
             newTcp.receive()
 
-main()
+if (__name__ == "__main__"):
+    main()
