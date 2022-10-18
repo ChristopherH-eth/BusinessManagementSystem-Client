@@ -1,6 +1,7 @@
 # Imports
 import socket
 from Network.listen import *
+from Log.log import *
 
 ##
 # @file tcp.py
@@ -24,7 +25,7 @@ class Tcp:
         try:
             self.s.connect((self.host, self.port))
         except:
-            print("Server connection error, could not connect to server")
+            Log.getLogger().error("Server connection error, could not connect to server")
             return
 
         self.listener = Listener(listenerName, listenerId, self.s)
@@ -45,7 +46,7 @@ class Tcp:
     def receive(self):
         if (msgQueue.empty() == False):
             while (msgQueue.qsize() > 0):
-                print(msgQueue.get())
+                Log.getLogger().info(msgQueue.get())
 
     # @brief The connect() function attempts to connect to the server
     def connect(self):
