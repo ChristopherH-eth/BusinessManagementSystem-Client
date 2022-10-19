@@ -29,7 +29,7 @@ class Listener(threading.Thread):
             try:
                 msg = self.s.recv(4096).decode("utf-8")
 
-                if (msg[0] != b''):
+                if (msg[0] != ''):
                     self.q.put(msg)
             except:
                 pass

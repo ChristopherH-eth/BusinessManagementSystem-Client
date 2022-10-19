@@ -1,7 +1,7 @@
 # Imports
 import socket
-from Network.listen import *
-from Log.log import *
+from Network.listen import Listener, msgQueue
+from Log.log import Log
 
 ##
 # @file tcp.py
@@ -59,3 +59,5 @@ class Tcp:
     def disconnect(self):
         self.listener.endThread()
         self.s.close()
+
+newTcp = Tcp()

@@ -1,9 +1,10 @@
 # Imports
-from Network.tcp import *
+from Network.tcp import newTcp
 from Network.listen import msgQueue
 from time import sleep
-from Util.funcUtil import *
-from Log.log import *
+from Util.funcUtil import FuncUtil
+from Log.log import Log
+from GUI.dashboard import app
 import asyncio
 
 ##
@@ -30,8 +31,7 @@ async def main():
     Log.getLogger().info("Waiting for response...")
 
     # Set 'running' to false until we validate our connection to the server
-    running = False 
-    newTcp = Tcp()
+    running = False
 
     # Wait for server connected message 
     timetoConnect = await waitForServer()
@@ -47,13 +47,20 @@ async def main():
     # Print queued messages upon server connection
     newTcp.receive()
 
+    # Launch app window
+    app.exec_()
+
     # Main running loop
-    while (running):
-        if (msgQueue.empty() == True):
-            fId = input("Enter function id: ")
-            running = FuncUtil.directInput(running, fId, newTcp)
-        else:
-            newTcp.receive()
+    # while (running):
+    #     if (msgQueue.empty() == True):
+    #         fId = input("Enter function id: ")
+    #         running = FuncUtil.directInput(running, fId, newTcp)
+    #     else:
+    #         newTcp.receive()
+
+    # Disconnect from server
+    FuncUtil.directInput(running, "exit", newTcp)
+    newTcp.disconnect()
 
 if (__name__ == "__main__"):
     asyncio.run(main())

@@ -1,8 +1,9 @@
 # Imports
 from enum import Enum
 from time import sleep
-from HR.employee import *
-from Log.log import *
+from HR.employee import Employee
+from Log.log import Log
+from Network.listen import msgQueue
 
 ##
 # @file funcUtil.py
@@ -84,3 +85,19 @@ class FuncUtil(Enum):
                 running = False
 
             return running
+        
+    # @brief The waitForReply() function waits for a server response after sending a request
+    def waitForReply():
+        count = 0
+        success = False
+
+        while (msgQueue.empty() and count != 60):
+            count += 1
+            sleep(1)
+            
+        if (msgQueue.empty() == False):
+            success = True
+        else:
+            success = False
+        
+        return success
