@@ -10,18 +10,18 @@ from Network.tcp import newTcp
 # @brief
 ##
 
-class MainWindow(qtw.QWidget):
+class Dashboard(qtw.QWidget):
     def __init__(self):
         super().__init__()
 
         # Set window title
-        self.setWindowTitle("Business Management System")
+        self.setWindowTitle("Business Management System - Dashboard")
 
         # Set layout
-        self.setLayout(qtw.QVBoxLayout())
+        self.setLayout(qtw.QGridLayout())
         self.setGeometry(600, 400, 1000, 800)
 
-        welcomeLabel = qtw.QLabel("Welcome!")
+        welcomeLabel = qtw.QLabel("Dashboard")
         welcomeLabel.setFont(qtg.QFont("Helvecta", 18))
         self.layout().addWidget(welcomeLabel)
 
@@ -54,8 +54,5 @@ class MainWindow(qtw.QWidget):
             if (success):
                 newTcp.receive()
 
-        # Show application
-        self.show()
-
 app = qtw.QApplication([])
-mw = MainWindow()
+dashboard = Dashboard()

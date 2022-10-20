@@ -4,7 +4,7 @@ from Network.listen import msgQueue
 from time import sleep
 from Util.funcUtil import FuncUtil
 from Log.log import Log
-from GUI.dashboard import app
+from GUI.login import app
 import asyncio
 
 ##
