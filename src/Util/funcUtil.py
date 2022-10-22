@@ -40,10 +40,9 @@ class FuncUtil(Enum):
         return convertedFId in values
 
     # @brief The directInput() function takes user input and executes the corresponding function
-    # @param running Remains true while the program is running
     # @param fId The unique id of the function to be executed
     # @param newTcp The current connection to the server
-    def directInput(running, fId, newTcp):
+    def directInput(fId, newTcp):
         # Check if an 'exit' or 'shutdown' command was given
             if (fId != "exit" and fId != "shutdown"):
                 newTcp.connect()
@@ -82,9 +81,6 @@ class FuncUtil(Enum):
             else:
                 newTcp.send(fId)
                 newTcp.disconnect()
-                running = False
-
-            return running
         
     # @brief The waitForReply() function waits for a server response after sending a request
     def waitForReply():

@@ -4,7 +4,7 @@ from Network.listen import msgQueue
 from time import sleep
 from Util.funcUtil import FuncUtil
 from Log.log import Log
-from GUI.login import app
+from GUI.mainWindow import app
 import asyncio
 
 ##
@@ -30,9 +30,6 @@ async def main():
     Log.getLogger().info("Connecting to server")
     Log.getLogger().info("Waiting for response...")
 
-    # Set 'running' to false until we validate our connection to the server
-    running = False
-
     # Wait for server connected message 
     timetoConnect = await waitForServer()
 
@@ -42,7 +39,6 @@ async def main():
         return
     else:
         Log.getLogger().info("Time to connect: " + str(timetoConnect) + " seconds")
-        running = True
 
     # Print queued messages upon server connection
     newTcp.receive()
@@ -50,16 +46,8 @@ async def main():
     # Launch app window
     app.exec_()
 
-    # Main running loop
-    # while (running):
-    #     if (msgQueue.empty() == True):
-    #         fId = input("Enter function id: ")
-    #         running = FuncUtil.directInput(running, fId, newTcp)
-    #     else:
-    #         newTcp.receive()
-
     # Disconnect from server
-    FuncUtil.directInput(running, "exit", newTcp)
+    FuncUtil.directInput("exit", newTcp)
     newTcp.disconnect()
 
 if (__name__ == "__main__"):

@@ -1,8 +1,7 @@
 # Imports
 import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
-from Util.funcUtil import FuncUtil
-from Network.tcp import newTcp
+import PyQt5.QtCore as qtc
 
 ##
 # @file dashboard.py
@@ -10,49 +9,89 @@ from Network.tcp import newTcp
 # @brief
 ##
 
-class Dashboard(qtw.QWidget):
-    def __init__(self):
-        super().__init__()
-
+class Dashboard(object):
+    # The SetUI() function sets the UI of the dashboard window
+    def setupUI(self, MainWindow):
         # Set window title
-        self.setWindowTitle("Business Management System - Dashboard")
+        MainWindow.setWindowTitle("Business Management System - Dashboard")
 
-        # Set layout
-        self.setLayout(qtw.QGridLayout())
-        self.setGeometry(600, 400, 1000, 800)
+        # Set central widget
+        self.centralWidget = qtw.QWidget(MainWindow)
+        MainWindow.setCentralWidget(self.centralWidget)
 
-        welcomeLabel = qtw.QLabel("Dashboard")
-        welcomeLabel.setFont(qtg.QFont("Helvecta", 18))
-        self.layout().addWidget(welcomeLabel)
+        # Set layouts
+        outerLayout = qtw.QVBoxLayout()
+        headerLayout = qtw.QVBoxLayout()
+        bodyLayout = qtw.QHBoxLayout()
+        sideNavLayout = qtw.QGridLayout()
+        buttonLayout = qtw.QGridLayout()
 
+        outerLayout.addLayout(headerLayout)
+        outerLayout.addLayout(bodyLayout)
+        bodyLayout.addLayout(sideNavLayout)
+        bodyLayout.addLayout(buttonLayout)
+        self.centralWidget.setLayout(outerLayout)
+
+        outerLayout.setAlignment(qtc.Qt.AlignTop)
+
+        MainWindow.setGeometry(400, 200, 1800, 1500)
+
+        ##
+        # Labels 
+        ##
+
+        # Window Label
+        windowLabel = qtw.QLabel("Dashboard")
+        windowLabel.setFont(qtg.QFont("Helvecta", 18))
+        windowLabel.setAlignment(qtc.Qt.AlignCenter)
+        headerLayout.addWidget(windowLabel)
+        windowSpacer = qtw.QWidget()
+        windowSpacer.setFixedHeight(75)
+        headerLayout.addWidget(windowSpacer)
+
+        # Side Nav Label
+        sideNavLabel = qtw.QLabel("Navigation")
+        sideNavLabel.setFont(qtg.QFont("Helvecta", 10))
+        sideNavLabel.setAlignment(qtc.Qt.AlignCenter)
+        sideNavLabel.setFixedWidth(250)
+        sideNavLayout.addWidget(sideNavLabel, 0, 0)
+
+        ##
         # Buttons
-        addEmployeeButton = qtw.QPushButton("Add", clicked = lambda: AddEmployee())
-        self.layout().addWidget(addEmployeeButton)
-        removeEmployeeButton = qtw.QPushButton("Remove", clicked = lambda: RemoveEmployee())
-        self.layout().addWidget(removeEmployeeButton)
-        updateEmployeeButton = qtw.QPushButton("Update", clicked = lambda: UpdateEmployee())
-        self.layout().addWidget(updateEmployeeButton)
+        ##
 
-        def AddEmployee():
-            FuncUtil.directInput(True, "100", newTcp)
-            success = FuncUtil.waitForReply()
+        # Dashboard Button
+        self.dashButton = qtw.QPushButton("Dashboard")
+        self.dashButton.setFixedWidth(250)
+        sideNavLayout.addWidget(self.dashButton, 1, 0)
+        sideNavLayout.setAlignment(qtc.Qt.AlignTop)
+        dashSpacer = qtw.QWidget()
+        dashSpacer = qtw.QWidget().setFixedWidth(250)
+        sideNavLayout.addWidget(dashSpacer, 1, 1)
 
-            if (success):
-                newTcp.receive()
+        # HR Button
+        self.hrButton = qtw.QPushButton("Human Resources")
+        self.hrButton.setFixedWidth(250)
+        sideNavLayout.addWidget(self.hrButton, 2, 0)
+        sideNavLayout.setAlignment(qtc.Qt.AlignTop)
+        hrSpacer = qtw.QWidget()
+        hrSpacer.setFixedWidth(250)
+        sideNavLayout.addWidget(hrSpacer, 2, 1)
+
+        ##
+        # Button Functions
+        ##
+
+        # @brief The AddEmployee() function calls the FuncUtil.directInput() function with the corresponding
+        # function id. 'success' returns true based on server response
+        # def dashboard():
+        #     self.hide()
+        #     self.dashboard = dashboard
+        #     self.dashboard.show()
         
-        def RemoveEmployee():
-            FuncUtil.directInput(True, "101", newTcp)
-            success = FuncUtil.waitForReply()
+        # def hr():
+        #     self.hide()
+        #     self.dashboard = humanResources
+        #     self.dashboard.show()
 
-            if (success):
-                newTcp.receive()
-
-        def UpdateEmployee():
-            FuncUtil.directInput(True, "102", newTcp)
-            success = FuncUtil.waitForReply()
-
-            if (success):
-                newTcp.receive()
-
-app = qtw.QApplication([])
-dashboard = Dashboard()
+        MainWindow.show()
