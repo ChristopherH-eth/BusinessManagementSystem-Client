@@ -6,106 +6,97 @@ from Util.funcUtil import FuncUtil
 from Network.tcp import newTcp
 
 ##
-# @file dashboard.py
+# @file hr.py
 # @author 0xChristopher
 # @brief
 ##
 
-class HumanResources(qtw.QMainWindow):
-    def __init__(self):
-        super().__init__()
+class HumanResources():
+    # The SetUI() function sets the UI of the human resources window
+    def SetUI(self, MainWindow):
 
-        HumanResources.SetUI(self)
+        ##
+        # Window layouts and attributes
+        ##
 
-    # The SetUI() function sets the UI of the dashboard window
-    def SetUI(self):
         # Set window title
-        self.setWindowTitle("Business Management System - Dashboard")
+        MainWindow.setWindowTitle("Business Management System - Human Resources")
 
         # Set central widget
-        centralWidget = qtw.QWidget(self)
-        self.setCentralWidget(centralWidget)
+        self.centralWidget = qtw.QWidget(MainWindow)
+        MainWindow.setCentralWidget(self.centralWidget)
 
         # Set layouts
-        outerLayout = qtw.QVBoxLayout()
-        headerLayout = qtw.QVBoxLayout()
-        bodyLayout = qtw.QHBoxLayout()
-        sideNavLayout = qtw.QGridLayout()
-        buttonLayout = qtw.QGridLayout()
+        self.outerLayout = qtw.QVBoxLayout()
+        self.headerLayout = qtw.QVBoxLayout()
+        self.bodyLayout = qtw.QHBoxLayout()
+        self.sideNavLayout = qtw.QGridLayout()
+        self.buttonLayout = qtw.QGridLayout()
 
-        outerLayout.addLayout(headerLayout)
-        outerLayout.addLayout(bodyLayout)
-        bodyLayout.addLayout(sideNavLayout)
-        bodyLayout.addLayout(buttonLayout)
-        centralWidget.setLayout(outerLayout)
+        self.outerLayout.addLayout(self.headerLayout)
+        self.outerLayout.addLayout(self.bodyLayout)
+        self.bodyLayout.addLayout(self.sideNavLayout)
+        self.bodyLayout.addLayout(self.buttonLayout)
+        self.centralWidget.setLayout(self.outerLayout)
 
-        outerLayout.setAlignment(qtc.Qt.AlignTop)
+        self.outerLayout.setAlignment(qtc.Qt.AlignTop)
 
-        self.setGeometry(400, 200, 1800, 1500)
-
-        # Menu bar
-        exitAction = qtw.QAction("&Exit", self)
-        exitAction.setShortcut("Ctrl+Q")
-        exitAction.setStatusTip("Exit Application")
-        exitAction.triggered.connect(self.close)
-
-        menubar = self.menuBar()
-        mFile = menubar.addMenu("&File")
-        mFile.addAction(exitAction)
+        # Window dimensions
+        MainWindow.setGeometry(400, 200, 1800, 1500)
 
         ##
         # Labels 
         ##
 
         # Window Label
-        windowLabel = qtw.QLabel("Dashboard")
-        windowLabel.setFont(qtg.QFont("Helvecta", 18))
-        windowLabel.setAlignment(qtc.Qt.AlignCenter)
-        headerLayout.addWidget(windowLabel)
-        windowSpacer = qtw.QWidget()
-        windowSpacer.setFixedHeight(75)
-        headerLayout.addWidget(windowSpacer)
+        self.windowLabel = qtw.QLabel("Dashboard")
+        self.windowLabel.setFont(qtg.QFont("Helvecta", 18))
+        self.windowLabel.setAlignment(qtc.Qt.AlignCenter)
+        self.headerLayout.addWidget(self.windowLabel)
+        self.windowSpacer = qtw.QWidget()
+        self.windowSpacer.setFixedHeight(75)
+        self.headerLayout.addWidget(self.windowSpacer)
 
         # Side Nav Label
-        sideNavLabel = qtw.QLabel("Navigation")
-        sideNavLabel.setFont(qtg.QFont("Helvecta", 10))
-        sideNavLabel.setAlignment(qtc.Qt.AlignCenter)
-        sideNavLabel.setFixedWidth(250)
-        sideNavLayout.addWidget(sideNavLabel, 0, 0)
+        self.sideNavLabel = qtw.QLabel("Navigation")
+        self.sideNavLabel.setFont(qtg.QFont("Helvecta", 10))
+        self.sideNavLabel.setAlignment(qtc.Qt.AlignCenter)
+        self.sideNavLabel.setFixedWidth(250)
+        self.sideNavLayout.addWidget(self.sideNavLabel, 0, 0)
 
         ##
         # Buttons
         ##
 
         # Dashboard Button
-        dashButton = qtw.QPushButton("Dashboard", clicked = lambda: dashboard())
-        dashButton.setFixedWidth(250)
-        sideNavLayout.addWidget(dashButton, 1, 0)
-        sideNavLayout.setAlignment(qtc.Qt.AlignTop)
-        dashSpacer = qtw.QWidget()
-        dashSpacer = qtw.QWidget().setFixedWidth(250)
-        sideNavLayout.addWidget(dashSpacer, 1, 1)
+        self.dashButton = qtw.QPushButton("Dashboard")
+        self.dashButton.setFixedWidth(250)
+        self.sideNavLayout.addWidget(self.dashButton, 1, 0)
+        self.sideNavLayout.setAlignment(qtc.Qt.AlignTop)
+        self.dashSpacer = qtw.QWidget()
+        self.dashSpacer.setFixedWidth(250)
+        self.sideNavLayout.addWidget(self.dashSpacer, 1, 1)
 
         # HR Button
-        hrButton = qtw.QPushButton("Human Resources", clicked = lambda: hr())
-        hrButton.setFixedWidth(250)
-        sideNavLayout.addWidget(hrButton, 2, 0)
-        sideNavLayout.setAlignment(qtc.Qt.AlignTop)
-        hrSpacer = qtw.QWidget()
-        hrSpacer.setFixedWidth(250)
-        sideNavLayout.addWidget(hrSpacer, 2, 1)
+        self.hrButton = qtw.QPushButton("Human Resources")
+        self.hrButton.setFixedWidth(250)
+        self.sideNavLayout.addWidget(self.hrButton, 2, 0)
+        self.sideNavLayout.setAlignment(qtc.Qt.AlignTop)
+        self.hrSpacer = qtw.QWidget()
+        self.hrSpacer.setFixedWidth(250)
+        self.sideNavLayout.addWidget(self.hrSpacer, 2, 1)
 
         # Add Employee Button
-        addEmployeeButton = qtw.QPushButton("Add", clicked = lambda: AddEmployee())
-        buttonLayout.addWidget(addEmployeeButton)
+        self.addEmployeeButton = qtw.QPushButton("Add", clicked = lambda: AddEmployee())
+        self.buttonLayout.addWidget(self.addEmployeeButton)
 
         # Remove Employee Button
-        removeEmployeeButton = qtw.QPushButton("Remove", clicked = lambda: RemoveEmployee())
-        buttonLayout.addWidget(removeEmployeeButton)
+        self.removeEmployeeButton = qtw.QPushButton("Remove", clicked = lambda: RemoveEmployee())
+        self.buttonLayout.addWidget(self.removeEmployeeButton)
 
         # Update Employee Button
-        updateEmployeeButton = qtw.QPushButton("Update", clicked = lambda: UpdateEmployee())
-        buttonLayout.addWidget(updateEmployeeButton)
+        self.updateEmployeeButton = qtw.QPushButton("Update", clicked = lambda: UpdateEmployee())
+        self.buttonLayout.addWidget(self.updateEmployeeButton)
 
         ##
         # Button Functions
@@ -137,16 +128,3 @@ class HumanResources(qtw.QMainWindow):
 
             if (success):
                 newTcp.receive()
-
-        def dashboard():
-            self.hide()
-            self.humanResources = dashboard
-            self.humanResources.show()
-
-        def hr():
-            self.hide()
-            self.humanResources = humanResources
-            self.humanResources.show()
-
-app = qtw.QApplication([])
-humanResources = HumanResources()

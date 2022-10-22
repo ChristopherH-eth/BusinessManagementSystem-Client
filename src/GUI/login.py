@@ -9,9 +9,9 @@ import PyQt5.QtCore as qtc
 # @brief
 ##
 
-class Login(object):
+class Login():
     # The SetUI() function sets the UI of the main window
-    def setupUI(self, MainWindow):
+    def SetUI(self, MainWindow):
         # Set window title
         MainWindow.setWindowTitle("Business Management System - Login")
 
@@ -20,40 +20,33 @@ class Login(object):
         MainWindow.setCentralWidget(self.centralWidget)
 
         # Set layouts
-        outerLayout = qtw.QVBoxLayout()
-        headerLayout = qtw.QVBoxLayout()
-        inputFieldLayout = qtw.QFormLayout()
-        buttonLayout = qtw.QGridLayout()
+        self.outerLayout = qtw.QVBoxLayout()
+        self.headerLayout = qtw.QVBoxLayout()
+        self.inputFieldLayout = qtw.QFormLayout()
+        self.buttonLayout = qtw.QGridLayout()
 
-        outerLayout.addLayout(headerLayout)
-        outerLayout.addLayout(inputFieldLayout)
-        outerLayout.addLayout(buttonLayout)
-        self.centralWidget.setLayout(outerLayout)
+        self.outerLayout.addLayout(self.headerLayout)
+        self.outerLayout.addLayout(self.inputFieldLayout)
+        self.outerLayout.addLayout(self.buttonLayout)
+        self.centralWidget.setLayout(self.outerLayout)
+
+        # Window dimensions
         MainWindow.setGeometry(950, 600, 800, 500)
 
         # Welcome label
-        welcomeLabel = qtw.QLabel("Welcome!\nPlease Login")
-        welcomeLabel.setFont(qtg.QFont("Helvecta", 18))
-        welcomeLabel.setAlignment(qtc.Qt.AlignCenter)
-        headerLayout.addWidget(welcomeLabel)
+        self.welcomeLabel = qtw.QLabel("Welcome!\nPlease Login")
+        self.welcomeLabel.setFont(qtg.QFont("Helvecta", 18))
+        self.welcomeLabel.setAlignment(qtc.Qt.AlignCenter)
+        self.headerLayout.addWidget(self.welcomeLabel)
 
         # Input fields
-        inputFieldLayout.addRow("Username: ", qtw.QLineEdit())
-        inputFieldLayout.addRow("Password: ", qtw.QLineEdit())
+        self.inputFieldLayout.addRow("Username: ", qtw.QLineEdit())
+        self.inputFieldLayout.addRow("Password: ", qtw.QLineEdit())
 
         # Buttons
         self.loginButton = qtw.QPushButton("Login")
-        buttonLayout.addWidget((self.loginButton), 0, 0)
-        clockInButton = qtw.QPushButton("Clock In")
-        buttonLayout.addWidget((clockInButton), 0, 1)
-        clockOutButton = qtw.QPushButton("Clock Out")
-        buttonLayout.addWidget((clockOutButton), 0, 2)
-
-        # The Login() function attempts to log a user in
-        # def Login():
-        #     self.hide()
-        #     self.mw = dashboard
-        #     self.mw.show()
-
-        # Show application
-        MainWindow.show()
+        self.buttonLayout.addWidget((self.loginButton), 0, 0)
+        self.clockInButton = qtw.QPushButton("Clock In")
+        self.buttonLayout.addWidget((self.clockInButton), 0, 1)
+        self.clockOutButton = qtw.QPushButton("Clock Out")
+        self.buttonLayout.addWidget((self.clockOutButton), 0, 2)
