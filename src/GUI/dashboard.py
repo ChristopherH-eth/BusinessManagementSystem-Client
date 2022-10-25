@@ -3,28 +3,28 @@ import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
 import PyQt5.QtCore as qtc
 
-##
-# @file dashboard.py
-# @author 0xChristopher
-# @brief
-##
+'''
+@file dashboard.py
+@author 0xChristopher
+@brief This file defines how the UI will be set up for the dashboard window.
+'''
 
 class Dashboard():
-    # The SetUI() function sets the UI of the dashboard window
+    ## @brief The SetUI() function sets the UI of the dashboard window
     def SetUI(self, MainWindow):
 
         ##
-        # Window layouts and attributes
+        # Window Layouts and Attributes
         ##
 
-        # Set window title
+        # Set Window Title
         MainWindow.setWindowTitle("Business Management System - Dashboard")
 
-        # Set central widget
+        # Set Central Widget
         self.centralWidget = qtw.QWidget(MainWindow)
         MainWindow.setCentralWidget(self.centralWidget)
 
-        # Set layouts
+        # Set Layouts
         self.outerLayout = qtw.QVBoxLayout()
         self.headerLayout = qtw.QVBoxLayout()
         self.bodyLayout = qtw.QHBoxLayout()
@@ -39,7 +39,7 @@ class Dashboard():
 
         self.outerLayout.setAlignment(qtc.Qt.AlignTop)
 
-        # Window dimensions
+        # Window Dimensions
         MainWindow.setGeometry(400, 200, 1800, 1500)
 
         ##

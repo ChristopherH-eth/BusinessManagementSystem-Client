@@ -1,21 +1,25 @@
 # Imports
+import asyncio
+from time import sleep
+
 from Network.tcp import newTcp
 from Network.listen import msgQueue
-from time import sleep
 from Util.funcUtil import FuncUtil
 from Log.log import Log
 from GUI.mainWindow import app
-import asyncio
+
+'''
+@file client.py
+@author 0xChristopher
+@brief This is the entry point for the Business Management System client side application.
+'''
 
 ##
-# @file client.py
-# @author 0xChristopher
-# @brief This is the entry point for the Business Management System client side application.
-##
-
 # Functions
-# The waitForServer() function is a coroutine to wait for a server reply before continuing
-async def waitForServer():
+##
+
+## @brief The WaitForServer() function is a coroutine to wait for a server reply before continuing
+async def WaitForServer():
     count = 0
 
     while (msgQueue.empty() and count != 60):
@@ -24,31 +28,32 @@ async def waitForServer():
     
     return count
 
-# Client application entry point
+## Client application entry point
 async def main():
-    Log.getLogger().info("Welcome to Business Management System v1.0.0")
-    Log.getLogger().info("Connecting to server")
-    Log.getLogger().info("Waiting for response...")
+    Log.GetLogger().info("Welcome to Business Management System v1.0.0")
+    Log.GetLogger().info("Connecting to server")
+    Log.GetLogger().info("Waiting for response...")
 
     # Wait for server connected message 
-    timetoConnect = await waitForServer()
+    timetoConnect = await WaitForServer()
 
     # Make sure we have a working connection to the server
     if (msgQueue.empty() == True):
-        Log.getLogger().error("Server connection error, no response from server")
+        Log.GetLogger().error("Server connection error, no response from server")
         return
     else:
-        Log.getLogger().info("Time to connect: " + str(timetoConnect) + " seconds")
+        Log.GetLogger().info("Time to connect: " + str(timetoConnect) + " seconds")
 
     # Print queued messages upon server connection
-    newTcp.receive()
+    newTcp.Receive()
 
     # Launch app window
     app.exec_()
 
     # Disconnect from server
-    FuncUtil.directInput("exit", newTcp)
-    newTcp.disconnect()
+    FuncUtil.DirectInput("exit")
+    newTcp.Disconnect()
+    input()
 
 if (__name__ == "__main__"):
     asyncio.run(main())

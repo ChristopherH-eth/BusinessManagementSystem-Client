@@ -2,18 +2,21 @@
 import threading
 import queue
 
-##
-# @file listen.py
-# @author 0xChristopher
-# @brief
-##
+'''
+@file listen.py
+@author 0xChristopher
+@brief This file is responsible for creating a thread to listen for incoming responses from the server
+        application, storing them in a queue if the client application is busy, and then logging them.
+'''
 
-# Queue to temporarily store messages from the server
-msgQueue = queue.Queue(maxsize = 100)
+msgQueue = queue.Queue(maxsize = 100) # Queue to temporarily store messages from the server
 
 class Listener(threading.Thread):
+    ##
     # Functions
-    # @brief Thread constructor
+    ##
+
+    ## @brief Listener thread constructor
     def __init__(self, threadName, threadId, socket):
         threading.Thread.__init__(self)
         self.threadName = threadName
@@ -22,7 +25,7 @@ class Listener(threading.Thread):
         self.listening = True
         self.q = msgQueue
 
-    # @brief The run() function determines what the thread will do while running
+    ## @brief The run() function determines what the thread will do while running
     def run(self):
         # Thread loop for listening
         while (self.listening):
@@ -34,6 +37,6 @@ class Listener(threading.Thread):
             except:
                 pass
 
-    # @brief The endThread() function terminates the thread
-    def endThread(self):
+    ## @brief The EndThread() function terminates the thread
+    def EndThread(self):
         self.listening = False

@@ -1,34 +1,30 @@
 # Imports
 from enum import Enum
 from time import sleep
-from HR.employee import Employee
+
 from Log.log import Log
 from Network.listen import msgQueue
+from Network.tcp import newTcp
 
-##
-# @file funcUtil.py
-# @author 0xChristopher
-# @brief
-##
-
-# Example employee
-firstName = "John"
-lastName = "Doe"
-birthDate = "1/1/2020"
-position = "Manager"
-age = "32"
-idNumber = "123456"
+'''
+@file funcUtil.py
+@author 0xChristopher
+@brief This file handles the indentification of which function to call and subsequently send a request
+        to the server to call the corresponding function with the data in the request.
+'''
 
 class FuncUtil(Enum):
     addEmployee = 100
     removeEmployee = 101
     updateEmployee = 102
 
+    ##
     # Functions
-    # @brief The isValid() function checks if a function id is valid
-    # @param cls The enum class containing function ids
-    # @param fId The function id number
-    def isValid(cls, fId):
+    ##
+    
+    ## @brief The IsValid() function checks if a function id is valid
+    #  @param fId The function id number
+    def IsValid(fId):
         convertedFId = 0
         
         try:
@@ -37,53 +33,21 @@ class FuncUtil(Enum):
             pass
 
         values = set(item.value for item in FuncUtil)
+
         return convertedFId in values
 
-    # @brief The directInput() function takes user input and executes the corresponding function
-    # @param fId The unique id of the function to be executed
-    # @param newTcp The current connection to the server
-    def directInput(fId, newTcp):
+    ## @brief The DirectInput() function takes user input and executes the corresponding function
+    #  @param fId The unique id of the function to be executed
+    #  @param newTcp The current connection to the server
+    def DirectInput(fId):
         # Check if an 'exit' or 'shutdown' command was given
-            if (fId != "exit" and fId != "shutdown"):
-                newTcp.connect()
-                # Check submitted function id against valid function ids
-                if (FuncUtil.isValid(FuncUtil, fId)):
-                    # Add employee
-                    if (fId == "100"):
-                        employeeJson = Employee.employeeInfo(
-                            firstName, lastName, birthDate, position, age, idNumber)
-                        Log.getLogger().info("Sending: " + employeeJson)
-
-                        msg = fId + " " + employeeJson
-                        newTcp.send(msg)
-                    # Remove employee
-                    elif (fId == "101"):
-                        employeeJson = Employee.employeeInfo(
-                            firstName, lastName, birthDate, position, age, idNumber)
-                        Log.getLogger().info("Sending: " + employeeJson)
-
-                        msg = fId + " " + employeeJson
-                        newTcp.send(msg)
-                    # Update employee
-                    elif (fId == "102"):
-                        employeeJson = Employee.employeeInfo(
-                            firstName, lastName, birthDate, position, age, idNumber)
-                        Log.getLogger().info("Sending: " + employeeJson)
-
-                        msg = fId + " " + employeeJson
-                        newTcp.send(msg)
-                    else:
-                        newTcp.send(fId)
-                    
-                    sleep(1) # Give server time to respond
-                else:
-                    print("Invalid input")
-            else:
-                newTcp.send(fId)
-                newTcp.disconnect()
+        if (fId != "exit" and fId != "shutdown"):
+            return
+        else:
+            newTcp.Send(fId)
         
-    # @brief The waitForReply() function waits for a server response after sending a request
-    def waitForReply():
+    ## @brief The WaitForReply() function waits for a server response after sending a request
+    def WaitForReply():
         count = 0
         success = False
 

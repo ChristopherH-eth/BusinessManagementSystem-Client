@@ -1,16 +1,19 @@
 # Imports
 import logging
 
-##
-# @file log.py
-# @author 0xChristopher
-# @brief
-##
+'''
+@file log.py
+@author 0xChristopher
+@brief This file sets and initializes the client side logger.
+'''
 
 class Log:
+    ##
     # Functions
-    # @brief The setLogger() function sets the logger config
-    def setLogger():
+    ##
+
+    ## @brief The SetLogger() function sets the logger config
+    def SetLogger():
         logger = logging.getLogger("BMS_Client")
         logger.setLevel(logging.INFO)
 
@@ -30,8 +33,9 @@ class Log:
 
         return logger
 
-    def getLogger():
+    ## @brief The GetLogger() function returns the current logger
+    def GetLogger():
         return logger
 
 # Initialize logger
-logger = Log.setLogger()
+logger = Log.SetLogger()
