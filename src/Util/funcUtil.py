@@ -14,9 +14,11 @@ from Network.tcp import newTcp
 '''
 
 class FuncUtil(Enum):
-    addEmployee = 100
-    removeEmployee = 101
-    updateEmployee = 102
+    login = 100
+    logout = 101
+    addEmployee = 102
+    removeEmployee = 103
+    updateEmployee = 104
 
     ##
     # Functions

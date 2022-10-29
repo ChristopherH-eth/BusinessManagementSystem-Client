@@ -23,27 +23,27 @@ class Employee:
     #  @param lastName Employee's last name
     #  @param birthDate Employee's birth date
     #  @param position Employee's position in the company
-    #  @param age Employee's current age
-    #  @param idNumber Employee's id number
-    def EmployeeInfo(firstName, lastName, birthDate, position, age, idNumber):
+    #  @param salary The employee's yearly salary
+    #  @param empId Employee's id number
+    def EmployeeInfo(firstName, lastName, birthDate, position, salary, empId):
         employee = {
             "firstName": firstName,
             "lastName": lastName,
             "birthDate": birthDate,
             "position": position,
-            "age": age,
-            "idNumber": idNumber
+            "salary": salary,
+            "empId": empId
         }
 
         return json.dumps(employee)
 
     ## @brief The AddEmployee() function attempts to send employee data to the server to be added to the
     #       database
-    def AddEmployee(firstName, lastName, birthDate, position, age, empId):
-        fId = "100"
+    def AddEmployee(firstName, lastName, birthDate, position, salary, empId):
+        fId = "102"
 
         if (FuncUtil.IsValid(fId)):
-            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, age, empId)
+            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
             Log.GetLogger().info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson
@@ -51,11 +51,11 @@ class Employee:
 
     ## @brief The RemoveEmployee() function attempts to send employee data to the server to be removed from the
     #       database
-    def RemoveEmployee(firstName, lastName, birthDate, position, age, empId):
-        fId = "101"
+    def RemoveEmployee(firstName, lastName, birthDate, position, salary, empId):
+        fId = "103"
 
         if (FuncUtil.IsValid(fId)):
-            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, age, empId)
+            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
             Log.GetLogger().info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson
@@ -63,11 +63,11 @@ class Employee:
 
     ## @brief The UpdateEmployee() function attempts to send employee data to the server to be updated in the
     #       database
-    def UpdateEmployee(firstName, lastName, birthDate, position, age, empId):
-        fId = "102"
+    def UpdateEmployee(firstName, lastName, birthDate, position, salary, empId):
+        fId = "104"
 
         if (FuncUtil.IsValid(fId)):
-            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, age, empId)
+            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
             Log.GetLogger().info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson

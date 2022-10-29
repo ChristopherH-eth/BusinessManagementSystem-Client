@@ -35,8 +35,10 @@ class HumanResources():
         self.headerLayout = qtw.QVBoxLayout()
         self.bodyLayout = qtw.QHBoxLayout()
         self.innerBodyLayout = qtw.QVBoxLayout()
-        self.highBodyLayout = qtw.QVBoxLayout()
-        self.lowBodyLayout = qtw.QVBoxLayout()
+        self.employeeSearch = qtw.QVBoxLayout()
+        self.empSearchBar = qtw.QFormLayout()
+        self.empSearchBtns = qtw.QGridLayout()
+        self.employeeForm = qtw.QVBoxLayout()
         self.sideNavLayout = qtw.QGridLayout()
         self.inputFieldsLayout = qtw.QFormLayout()
         self.buttonLayout = qtw.QGridLayout()
@@ -45,10 +47,12 @@ class HumanResources():
         self.outerLayout.addLayout(self.bodyLayout)
         self.bodyLayout.addLayout(self.sideNavLayout)
         self.bodyLayout.addLayout(self.innerBodyLayout)
-        self.innerBodyLayout.addLayout(self.highBodyLayout)
-        self.innerBodyLayout.addLayout(self.lowBodyLayout)
-        self.lowBodyLayout.addLayout(self.inputFieldsLayout)
-        self.lowBodyLayout.addLayout(self.buttonLayout)
+        self.innerBodyLayout.addLayout(self.employeeSearch)
+        self.innerBodyLayout.addLayout(self.empSearchBar)
+        self.innerBodyLayout.addLayout(self.empSearchBtns)
+        self.innerBodyLayout.addLayout(self.employeeForm)
+        self.innerBodyLayout.addLayout(self.inputFieldsLayout)
+        self.innerBodyLayout.addLayout(self.buttonLayout)
         self.centralWidget.setLayout(self.outerLayout)
 
         self.outerLayout.setAlignment(qtc.Qt.AlignTop)
@@ -64,48 +68,45 @@ class HumanResources():
         self.windowLabel = qtw.QLabel("Human Resources")
         self.windowLabel.setFont(qtg.QFont("Helvecta", 18))
         self.windowLabel.setAlignment(qtc.Qt.AlignCenter)
-        self.headerLayout.addWidget(self.windowLabel)
         self.windowSpacer = qtw.QWidget()
         self.windowSpacer.setFixedHeight(75)
-        self.headerLayout.addWidget(self.windowSpacer)
 
         # Side Nav Label
         self.sideNavLabel = qtw.QLabel("Navigation")
         self.sideNavLabel.setFont(qtg.QFont("Helvecta", 10))
         self.sideNavLabel.setAlignment(qtc.Qt.AlignCenter)
         self.sideNavLabel.setFixedWidth(250)
-        self.sideNavLayout.addWidget(self.sideNavLabel, 0, 0)
         self.sideNavSpacer = qtw.QWidget()
         self.sideNavSpacer.setFixedHeight(25)
-        self.sideNavLayout.addWidget(self.sideNavSpacer, 1, 0)
+
+        # Employee Search Label
+        self.empSearchLabel = qtw.QLabel("Search Employees")
+        self.empSearchLabel.setFont(qtg.QFont("Helvecta", 10))
+        self.empSearchLabel.setAlignment(qtc.Qt.AlignCenter)
+        self.empSearchSpacer = qtw.QWidget()
+        self.empSearchSpacer.setFixedHeight(25)
 
         # Employee Form Label
         self.empInfoLabel = qtw.QLabel("Employee Information")
         self.empInfoLabel.setFont(qtg.QFont("Helvecta", 10))
         self.empInfoLabel.setAlignment(qtc.Qt.AlignCenter)
-        self.highBodyLayout.addWidget(self.empInfoLabel)
         self.empInfoSpacer = qtw.QWidget()
         self.empInfoSpacer.setFixedHeight(25)
-        self.highBodyLayout.addWidget(self.empInfoSpacer)
 
         ##
         # Input Fields
         ##
 
+        # Search Bar
+        self.searchName = qtw.QLineEdit()
+
         # Employee Information
         self.firstName = qtw.QLineEdit()
         self.lastName = qtw.QLineEdit()
         self.birthDate = qtw.QLineEdit()
-        self.age = qtw.QLineEdit()
+        self.salary = qtw.QLineEdit()
         self.position = qtw.QLineEdit()
         self.empId = qtw.QLineEdit()
-
-        self.inputFieldsLayout.addRow("First Name: ", self.firstName)
-        self.inputFieldsLayout.addRow("Last Name: ", self.lastName)
-        self.inputFieldsLayout.addRow("Date of Birth: ", self.birthDate)
-        self.inputFieldsLayout.addRow("Age: ", self.age)
-        self.inputFieldsLayout.addRow("Position: ", self.position)
-        self.inputFieldsLayout.addRow("ID Number: ", self.empId)
 
         ##
         # Side Nav Buttons
@@ -114,20 +115,16 @@ class HumanResources():
         # Dashboard Button
         self.dashButton = qtw.QPushButton("Dashboard")
         self.dashButton.setFixedWidth(250)
-        self.sideNavLayout.addWidget(self.dashButton, 2, 0)
         self.sideNavLayout.setAlignment(qtc.Qt.AlignTop)
         self.dashSpacer = qtw.QWidget()
         self.dashSpacer.setFixedWidth(250)
-        self.sideNavLayout.addWidget(self.dashSpacer, 2, 1)
 
         # HR Button
         self.hrButton = qtw.QPushButton("Human Resources")
         self.hrButton.setFixedWidth(250)
-        self.sideNavLayout.addWidget(self.hrButton, 3, 0)
         self.sideNavLayout.setAlignment(qtc.Qt.AlignTop)
         self.hrSpacer = qtw.QWidget()
         self.hrSpacer.setFixedWidth(250)
-        self.sideNavLayout.addWidget(self.hrSpacer, 3, 1)
 
         ##
         # Employee Function Buttons
@@ -136,22 +133,72 @@ class HumanResources():
         # Form/Button Spacer
         self.empButtonSpacer = qtw.QWidget()
         self.empButtonSpacer.setFixedHeight(25)
-        self.buttonLayout.addWidget(self.empButtonSpacer)
+
+        # Search/Button Spacers
+        self.empSearchSpacer = qtw.QWidget()
+        self.empSearchSpacer.setFixedHeight(25)
+        self.empSearchSpacer1 = qtw.QWidget()
+        self.empSearchSpacer1.setFixedHeight(25)
+        self.empSearchSpacer2 = qtw.QWidget()
+        self.empSearchSpacer2.setFixedHeight(50)
 
         # Add Employee Button
         self.addEmployeeButton = qtw.QPushButton("Add", clicked = lambda: AddEmployee())
         self.addEmployeeButton.setFixedWidth(250)
-        self.buttonLayout.addWidget(self.addEmployeeButton)
 
         # Remove Employee Button
         self.removeEmployeeButton = qtw.QPushButton("Remove", clicked = lambda: RemoveEmployee())
         self.removeEmployeeButton.setFixedWidth(250)
-        self.buttonLayout.addWidget(self.removeEmployeeButton)
 
         # Update Employee Button
         self.updateEmployeeButton = qtw.QPushButton("Update", clicked = lambda: UpdateEmployee())
         self.updateEmployeeButton.setFixedWidth(250)
+
+        # Search Employees
+        self.searchEmployeesButton = qtw.QPushButton("Search", clicked = lambda: SearchEmployee())
+        self.searchEmployeesButton.setFixedWidth(250)
+
+        ##
+        # Build Window
+        ##
+
+        # Window Header
+        self.headerLayout.addWidget(self.windowLabel)
+        self.headerLayout.addWidget(self.windowSpacer)
+
+        # Side Nav
+        self.sideNavLayout.addWidget(self.sideNavLabel, 0, 0)
+        self.sideNavLayout.addWidget(self.sideNavSpacer, 1, 0)
+        self.sideNavLayout.addWidget(self.dashButton, 2, 0)
+        self.sideNavLayout.addWidget(self.dashSpacer, 2, 1)
+        self.sideNavLayout.addWidget(self.hrButton, 3, 0)
+        self.sideNavLayout.addWidget(self.hrSpacer, 3, 1)
+
+        # Employee Search
+        self.employeeSearch.addWidget(self.empSearchLabel)
+        self.employeeSearch.addWidget(self.empSearchSpacer)
+        self.empSearchBar.addRow("Name: ", self.searchName)
+        self.empSearchBtns.addWidget(self.empSearchSpacer1)
+        self.empSearchBtns.addWidget(self.searchEmployeesButton)
+        self.empSearchBtns.addWidget(self.empSearchSpacer2)
+
+        # Employee Form
+        self.employeeForm.addWidget(self.empInfoLabel)
+        self.employeeForm.addWidget(self.empInfoSpacer)
+        self.inputFieldsLayout.addRow("First Name: ", self.firstName)
+        self.inputFieldsLayout.addRow("Last Name: ", self.lastName)
+        self.inputFieldsLayout.addRow("Date of Birth: ", self.birthDate)
+        self.inputFieldsLayout.addRow("Position: ", self.position)
+        self.inputFieldsLayout.addRow("Salary: ", self.salary)
+        self.inputFieldsLayout.addRow("ID Number: ", self.empId)
+
+        # Employee Function Buttons
+        self.buttonLayout.addWidget(self.empButtonSpacer)
+        self.buttonLayout.addWidget(self.addEmployeeButton)
+        self.buttonLayout.addWidget(self.removeEmployeeButton)
         self.buttonLayout.addWidget(self.updateEmployeeButton)
+
+        
 
         ##
         # Functions
@@ -163,12 +210,12 @@ class HumanResources():
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
-            age = self.age.text()
             position = self.position.text()
+            salary = self.salary.text()
             empId = self.empId.text()
 
             newTcp.Connect() # Make sure we're still connected to the server
-            Employee.AddEmployee(firstName, lastName, birthDate, age, position, empId)
+            Employee.AddEmployee(firstName, lastName, birthDate, position, salary, empId)
             success = FuncUtil.WaitForReply()
 
             if (success):
@@ -182,12 +229,12 @@ class HumanResources():
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
-            age = self.age.text()
             position = self.position.text()
+            salary = self.salary.text()
             empId = self.empId.text()
 
             newTcp.Connect() # Make sure we're still connected to the server
-            Employee.RemoveEmployee(firstName, lastName, birthDate, age, position, empId)
+            Employee.RemoveEmployee(firstName, lastName, birthDate, position, salary, empId)
             success = FuncUtil.WaitForReply()
 
             if (success):
@@ -201,12 +248,24 @@ class HumanResources():
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
-            age = self.age.text()
             position = self.position.text()
+            salary = self.salary.text()
             empId = self.empId.text()
 
             newTcp.Connect() # Make sure we're still connected to the server
-            Employee.UpdateEmployee(firstName, lastName, birthDate, age, position, empId)
+            Employee.UpdateEmployee(firstName, lastName, birthDate, position, salary, empId)
+            success = FuncUtil.WaitForReply()
+
+            if (success):
+                newTcp.Receive()
+            else:
+                Log.GetLogger().error("Host connection timeout")
+
+        ## @brief The SearchEmployee() function queries the server which searches the database for
+        #       employees.
+        def SearchEmployee():
+            newTcp.Connect() # Make sure we're still connected to the server
+            
             success = FuncUtil.WaitForReply()
 
             if (success):

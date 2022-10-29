@@ -53,7 +53,6 @@ async def main():
     # Disconnect from server
     FuncUtil.DirectInput("exit")
     newTcp.Disconnect()
-    input()
 
 if (__name__ == "__main__"):
     asyncio.run(main())
