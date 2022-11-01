@@ -19,6 +19,7 @@ class FuncUtil(Enum):
     addEmployee = 102
     removeEmployee = 103
     updateEmployee = 104
+    searchEmployees = 105
 
     ##
     # Functions

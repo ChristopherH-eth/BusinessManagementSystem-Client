@@ -72,3 +72,15 @@ class Employee:
 
             msg = fId + " " + employeeJson
             newTcp.Send(msg)
+
+    ## @brief The SearchEmployees() function attempts to send employee data to the server to be updated in the
+    #       database
+    def SearchEmployees(firstName):
+        fId = "105"
+
+        if (FuncUtil.IsValid(fId)):
+            employeeJson = Employee.EmployeeInfo(firstName, 0, 0, 0, 0, 0)
+            Log.GetLogger().info("Sending: " + employeeJson)
+
+            msg = fId + " " + employeeJson
+            newTcp.Send(msg)

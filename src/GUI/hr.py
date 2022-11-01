@@ -155,7 +155,7 @@ class HumanResources():
         self.updateEmployeeButton.setFixedWidth(250)
 
         # Search Employees
-        self.searchEmployeesButton = qtw.QPushButton("Search", clicked = lambda: SearchEmployee())
+        self.searchEmployeesButton = qtw.QPushButton("Search", clicked = lambda: SearchEmployees())
         self.searchEmployeesButton.setFixedWidth(250)
 
         ##
@@ -263,9 +263,11 @@ class HumanResources():
 
         ## @brief The SearchEmployee() function queries the server which searches the database for
         #       employees.
-        def SearchEmployee():
+        def SearchEmployees():
+            firstName = self.searchName.text()
+
             newTcp.Connect() # Make sure we're still connected to the server
-            
+            Employee.SearchEmployees(firstName)
             success = FuncUtil.WaitForReply()
 
             if (success):
