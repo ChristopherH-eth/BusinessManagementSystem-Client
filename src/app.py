@@ -4,8 +4,8 @@ from time import sleep
 
 from Network.tcp import newTcp
 from Network.listen import msgQueue
-from Util.funcUtil import FuncUtil
-from Log.log import Log
+from Util.funcUtil import funcUtil
+from Log.log import log
 from GUI.mainWindow import app
 
 '''
@@ -30,19 +30,19 @@ async def WaitForServer():
 
 ## Client application entry point
 async def main():
-    Log.GetLogger().info("Welcome to Business Management System v1.0.0")
-    Log.GetLogger().info("Connecting to server")
-    Log.GetLogger().info("Waiting for response...")
+    log.logger.info("Welcome to Business Management System v1.0.0")
+    log.logger.info("Connecting to server")
+    log.logger.info("Waiting for response...")
 
     # Wait for server connected message 
     timetoConnect = await WaitForServer()
 
     # Make sure we have a working connection to the server
     if (msgQueue.empty() == True):
-        Log.GetLogger().error("Server connection error, no response from server")
+        log.logger.error("Server connection error, no response from server")
         return
     else:
-        Log.GetLogger().info("Time to connect: " + str(timetoConnect) + " seconds")
+        log.logger.info("Time to connect: " + str(timetoConnect) + " seconds")
 
     # Print queued messages upon server connection
     newTcp.Receive()
@@ -51,7 +51,7 @@ async def main():
     app.exec_()
 
     # Disconnect from server
-    FuncUtil.DirectInput("exit")
+    funcUtil.DirectInput("exit")
     newTcp.Disconnect()
 
 if (__name__ == "__main__"):

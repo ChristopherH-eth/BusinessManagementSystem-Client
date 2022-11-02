@@ -2,7 +2,6 @@
 from enum import Enum
 from time import sleep
 
-from Log.log import Log
 from Network.listen import msgQueue
 from Network.tcp import newTcp
 
@@ -41,7 +40,6 @@ class FuncUtil(Enum):
 
     ## @brief The DirectInput() function takes user input and executes the corresponding function
     #  @param fId The unique id of the function to be executed
-    #  @param newTcp The current connection to the server
     def DirectInput(fId):
         # Check if an 'exit' or 'shutdown' command was given
         if (fId != "exit" and fId != "shutdown"):
@@ -64,3 +62,6 @@ class FuncUtil(Enum):
             success = False
         
         return success
+
+# Initialize funcUtil object
+funcUtil = FuncUtil()

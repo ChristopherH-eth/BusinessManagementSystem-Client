@@ -1,8 +1,9 @@
 # Imports
 import socket
+import json
 
 from Network.listen import Listener, msgQueue
-from Log.log import Log
+from Log.log import log
 
 '''
 @file tcp.py
@@ -29,7 +30,7 @@ class Tcp:
         try:
             self.s.connect((self.host, self.port))
         except:
-            Log.GetLogger().error("Server connection error, could not connect to server")
+            log.logger.error("Server connection error, could not connect to server")
             return
 
         self.listener = Listener(listenerName, listenerId, self.s)
@@ -47,10 +48,22 @@ class Tcp:
         self.s.sendall(bytes(input, encoding = 'utf8'))
 
     ## @brief The Receive() function displays messages for the client held in the msgQueue
-    def Receive(self):
+    #  @param msg The server response
+    def Receive(self, msg = ""):
         if (msgQueue.empty() == False):
             while (msgQueue.qsize() > 0):
-                Log.GetLogger().info(msgQueue.get())
+                msg = msgQueue.get()
+                log.logger.info("Received: " + msg)
+
+                # Check if we've received a JSON string
+                try:
+                    # Remove terminating character from string
+                    response = msg[:-1]
+                    response = json.loads(response)
+
+                    return response
+                except:
+                    return msg
 
     ## @brief The Connect() function attempts to connect to the server
     def Connect(self):
@@ -64,4 +77,5 @@ class Tcp:
         self.listener.EndThread()
         self.s.close()
 
+# Initialize newTcp object
 newTcp = Tcp()

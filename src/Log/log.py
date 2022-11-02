@@ -13,9 +13,9 @@ class Log:
     ##
 
     ## @brief The SetLogger() function sets the logger config
-    def SetLogger():
-        logger = logging.getLogger("BMS_Client")
-        logger.setLevel(logging.INFO)
+    def __init__(self):
+        self.logger = logging.getLogger("BMS_Client")
+        self.logger.setLevel(logging.INFO)
 
         sh = logging.StreamHandler()
         sh.setLevel(logging.INFO)
@@ -28,14 +28,8 @@ class Log:
         sh.setFormatter(formatter)
         fh.setFormatter(formatter)
 
-        logger.addHandler(sh)
-        logger.addHandler(fh)
+        self.logger.addHandler(sh)
+        self.logger.addHandler(fh)
 
-        return logger
-
-    ## @brief The GetLogger() function returns the current logger
-    def GetLogger():
-        return logger
-
-# Initialize logger
-logger = Log.SetLogger()
+# Initialize log object
+log = Log()

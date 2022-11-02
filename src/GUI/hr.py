@@ -3,10 +3,10 @@ import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
 import PyQt5.QtCore as qtc
 
-from Util.funcUtil import FuncUtil
+from Util.funcUtil import funcUtil
 from Network.tcp import newTcp
-from HR.employee import Employee
-from Log.log import Log
+from HR.employee import employee
+from Log.log import log
 
 '''
 @file hr.py
@@ -154,7 +154,7 @@ class HumanResources():
         self.updateEmployeeButton = qtw.QPushButton("Update", clicked = lambda: UpdateEmployee())
         self.updateEmployeeButton.setFixedWidth(250)
 
-        # Search Employees
+        # Search Employees Button
         self.searchEmployeesButton = qtw.QPushButton("Search", clicked = lambda: SearchEmployees())
         self.searchEmployeesButton.setFixedWidth(250)
 
@@ -207,6 +207,8 @@ class HumanResources():
         ## @brief The AddEmployee() function calls the FuncUtil.directInput() function with the corresponding
         #       function id. 'success' returns true based on server response
         def AddEmployee():
+            log.logger.info("Executing AddEmployee() function")
+
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
@@ -215,17 +217,19 @@ class HumanResources():
             empId = self.empId.text()
 
             newTcp.Connect() # Make sure we're still connected to the server
-            Employee.AddEmployee(firstName, lastName, birthDate, position, salary, empId)
-            success = FuncUtil.WaitForReply()
+            employee.AddEmployee(firstName, lastName, birthDate, position, salary, empId)
+            success = funcUtil.WaitForReply()
 
             if (success):
                 newTcp.Receive()
             else:
-                Log.GetLogger().error("Host connection timeout")
+                log.logger.error("Host connection timeout")
         
         ## @brief The RemoveEmployee() function calls the FuncUtil.directInput() function with the corresponding
         #       function id. 'success' returns true based on server response
         def RemoveEmployee():
+            log.logger.info("Executing RemoveEmployee() function")
+
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
@@ -234,17 +238,19 @@ class HumanResources():
             empId = self.empId.text()
 
             newTcp.Connect() # Make sure we're still connected to the server
-            Employee.RemoveEmployee(firstName, lastName, birthDate, position, salary, empId)
-            success = FuncUtil.WaitForReply()
+            employee.RemoveEmployee(firstName, lastName, birthDate, position, salary, empId)
+            success = funcUtil.WaitForReply()
 
             if (success):
                 newTcp.Receive()
             else:
-                Log.GetLogger().error("Host connection timeout")
+                log.logger.error("Host connection timeout")
 
         ## @brief The UpdateEmployee() function calls the FuncUtil.directInput() function with the corresponding
         #       function id. 'success' returns true based on server response
         def UpdateEmployee():
+            log.logger.info("Executing UpdateEmployee() function")
+
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
@@ -253,24 +259,32 @@ class HumanResources():
             empId = self.empId.text()
 
             newTcp.Connect() # Make sure we're still connected to the server
-            Employee.UpdateEmployee(firstName, lastName, birthDate, position, salary, empId)
-            success = FuncUtil.WaitForReply()
+            employee.UpdateEmployee(firstName, lastName, birthDate, position, salary, empId)
+            success = funcUtil.WaitForReply()
 
             if (success):
                 newTcp.Receive()
             else:
-                Log.GetLogger().error("Host connection timeout")
+                log.logger.error("Host connection timeout")
 
         ## @brief The SearchEmployee() function queries the server which searches the database for
         #       employees.
         def SearchEmployees():
+            log.logger.info("Executing SearchEmployees() function")
+
             firstName = self.searchName.text()
 
             newTcp.Connect() # Make sure we're still connected to the server
-            Employee.SearchEmployees(firstName)
-            success = FuncUtil.WaitForReply()
+            employee.SearchEmployees(firstName)
+            success = funcUtil.WaitForReply()
 
+            # Check if we've successfully received a reply from the server
             if (success):
-                newTcp.Receive()
+                msg = newTcp.Receive()
+
+                try:
+                    log.logger.info("Found " + msg["firstName"])
+                except:
+                    log.logger.error("Could not parse invalid JSON string: " + msg)
             else:
-                Log.GetLogger().error("Host connection timeout")
+                log.logger.error("Host connection timeout")

@@ -3,6 +3,11 @@ import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
 import PyQt5.QtCore as qtc
 
+from Network.tcp import newTcp
+from Util.funcUtil import funcUtil
+from Log.log import log
+from HR.employee import employee
+
 '''
 @file login.py
 @author 0xChristopher
@@ -47,7 +52,7 @@ class Login():
         self.inputFieldLayout.addRow("Password: ", self.password)
 
         # Buttons
-        self.loginButton = qtw.QPushButton("Login")
+        self.loginButton = qtw.QPushButton("Login", clicked = lambda: Login())
         self.buttonLayout.addWidget((self.loginButton), 0, 0)
         self.clockInButton = qtw.QPushButton("Clock In")
         self.buttonLayout.addWidget((self.clockInButton), 0, 1)
@@ -58,6 +63,21 @@ class Login():
         # Functions
         ##
 
-        # Login
+        ## @brief The Login() function attempts to log in the current user
+        def Login():
+            log.logger.info("Executing Login() function")
+
+            username = self.username.text()
+            password = self.password.text()
+
+            newTcp.Connect() # Make sure we're still connected to the server
+            employee.Login(username, password)
+            success = funcUtil.WaitForReply()
+
+            if (success):
+                newTcp.Receive()
+            else:
+                log.logger.error("Host connection timeout")
+
         # Clock in
         # Clock out
