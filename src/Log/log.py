@@ -12,7 +12,7 @@ class Log:
     # Functions
     ##
 
-    ## @brief The SetLogger() function sets the logger config
+    ## @brief Log constructor
     def __init__(self):
         self.logger = logging.getLogger("BMS_Client")
         self.logger.setLevel(logging.INFO)

@@ -36,15 +36,14 @@ class Tcp:
         self.listener = Listener(listenerName, listenerId, self.s)
         self.listener.start()
 
-
     ## @brief The GetHost() function returns the host ip address
     def GetHost(self):
         return self.host
 
     ## @brief The Send() function sends a message to the connected server
-    #  @param fId The id number of the function to be called server side
-    def Send(self, fId):
-        input = str(fId)
+    #  @param msg The message to be sent to the server
+    def Send(self, msg):
+        input = str(msg)
         self.s.sendall(bytes(input, encoding = 'utf8'))
 
     ## @brief The Receive() function displays messages for the client held in the msgQueue

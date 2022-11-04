@@ -19,6 +19,7 @@ class Listener(threading.Thread):
     ## @brief Listener thread constructor
     def __init__(self, threadName, threadId, socket):
         threading.Thread.__init__(self)
+        self.daemon = True
         self.threadName = threadName
         self.threadId = threadId
         self.s = socket

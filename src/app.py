@@ -9,7 +9,7 @@ from Log.log import log
 from GUI.mainWindow import app
 
 '''
-@file client.py
+@file app.py
 @author 0xChristopher
 @brief This is the entry point for the Business Management System client side application.
 '''

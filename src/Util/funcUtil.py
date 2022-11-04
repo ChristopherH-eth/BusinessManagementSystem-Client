@@ -12,13 +12,15 @@ from Network.tcp import newTcp
         to the server to call the corresponding function with the data in the request.
 '''
 
-class FuncUtil(Enum):
+class FuncEnum(Enum):
     login = 100
     logout = 101
     addEmployee = 102
     removeEmployee = 103
     updateEmployee = 104
     searchEmployees = 105
+
+class FuncUtil():
 
     ##
     # Functions
@@ -34,7 +36,7 @@ class FuncUtil(Enum):
         except:
             pass
 
-        values = set(item.value for item in FuncUtil)
+        values = set(item.value for item in FuncEnum)
 
         return convertedFId in values
 
