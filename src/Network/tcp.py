@@ -52,17 +52,19 @@ class Tcp:
         if (msgQueue.empty() == False):
             while (msgQueue.qsize() > 0):
                 msg = msgQueue.get()
+
+                # Remove null terminating character(s) from string
+                cleanMsg = msg.split('\x00',1)[0]
                 log.logger.info("Received: " + msg)
 
                 # Check if we've received a JSON string
                 try:
-                    # Remove terminating character from string
-                    response = msg[:-1]
+                    response = cleanMsg
                     response = json.loads(response)
 
                     return response
                 except:
-                    return msg
+                    return cleanMsg
 
     ## @brief The Connect() function attempts to connect to the server
     def Connect(self):

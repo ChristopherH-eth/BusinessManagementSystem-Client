@@ -80,7 +80,7 @@ class Employee:
         fId = "102"
 
         if (funcUtil.IsValid(fId)):
-            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
+            employeeJson = self.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
             log.logger.info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson
@@ -94,7 +94,7 @@ class Employee:
         fId = "103"
 
         if (funcUtil.IsValid(fId)):
-            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
+            employeeJson = self.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
             log.logger.info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson
@@ -108,7 +108,7 @@ class Employee:
         fId = "104"
 
         if (funcUtil.IsValid(fId)):
-            employeeJson = Employee.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
+            employeeJson = self.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
             log.logger.info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson
@@ -122,7 +122,7 @@ class Employee:
         fId = "105"
 
         if (funcUtil.IsValid(fId)):
-            employeeJson = Employee.EmployeeInfo(firstName, 0, 0, 0, 0, 0)
+            employeeJson = self.EmployeeInfo(firstName, 0, 0, 0, 0, 0)
             log.logger.info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson

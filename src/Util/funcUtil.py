@@ -28,7 +28,7 @@ class FuncUtil():
     
     ## @brief The IsValid() function checks if a function id is valid
     #  @param fId The function id number
-    def IsValid(fId):
+    def IsValid(self, fId):
         convertedFId = 0
         
         try:
@@ -42,7 +42,7 @@ class FuncUtil():
 
     ## @brief The DirectInput() function takes user input and executes the corresponding function
     #  @param fId The unique id of the function to be executed
-    def DirectInput(fId):
+    def DirectInput(self, fId):
         # Check if an 'exit' or 'shutdown' command was given
         if (fId != "exit" and fId != "shutdown"):
             return
@@ -50,14 +50,16 @@ class FuncUtil():
             newTcp.Send(fId)
         
     ## @brief The WaitForReply() function waits for a server response after sending a request
-    def WaitForReply():
+    def WaitForReply(self):
         count = 0
         success = False
 
+        # If the msgQueue is empty, wait for server reply
         while (msgQueue.empty() and count != 60):
             count += 1
             sleep(1)
             
+        # Check if we received a response or timeout
         if (msgQueue.empty() == False):
             success = True
         else:
