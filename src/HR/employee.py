@@ -31,8 +31,10 @@ class Employee:
             "lastName": lastName,
             "birthDate": birthDate,
             "position": position,
-            "salary": salary,
-            "empId": empId
+            "salary": float(salary),
+            "empId": int(empId),
+            "username": "",
+            "password": ""
         }
 
         return json.dumps(employee)

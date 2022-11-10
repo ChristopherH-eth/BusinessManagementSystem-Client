@@ -48,6 +48,8 @@ class Login():
         self.username = qtw.QLineEdit()
         self.password = qtw.QLineEdit()
 
+        self.password.setEchoMode(qtw.QLineEdit.Password)           # Mask password field
+
         self.inputFieldLayout.addRow("Username: ", self.username)
         self.inputFieldLayout.addRow("Password: ", self.password)
 

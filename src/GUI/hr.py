@@ -4,6 +4,7 @@ import PyQt5.QtGui as qtg
 import PyQt5.QtCore as qtc
 
 from Util.funcUtil import funcUtil
+from Util.regExUtil import regExUtil
 from Network.tcp import newTcp
 from HR.employee import employee
 from Log.log import log
@@ -108,6 +109,17 @@ class HumanResources():
         self.position = qtw.QLineEdit()
         self.empId = qtw.QLineEdit()
 
+        self.empId.setMaxLength(5)
+
+        ##
+        # Input Validators
+        ##
+
+        salaryVal = qtg.QDoubleValidator(0.99, 999999.99, 2)
+        self.salary.setValidator(salaryVal)
+        empIdVal = qtg.QIntValidator()
+        self.empId.setValidator(empIdVal)
+
         ##
         # Side Nav Buttons
         ##
@@ -198,8 +210,6 @@ class HumanResources():
         self.buttonLayout.addWidget(self.removeEmployeeButton)
         self.buttonLayout.addWidget(self.updateEmployeeButton)
 
-        
-
         ##
         # Functions
         ##
@@ -215,6 +225,10 @@ class HumanResources():
             position = self.position.text()
             salary = self.salary.text()
             empId = self.empId.text()
+
+            # Validate employee information before sending it to the server
+            if (not regExUtil.ValidateEmployeeInfo(firstName, lastName, birthDate, position, salary, empId)):
+                return
 
             newTcp.Connect() # Make sure we're still connected to the server
             employee.AddEmployee(firstName, lastName, birthDate, position, salary, empId)
