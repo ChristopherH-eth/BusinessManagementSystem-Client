@@ -1,6 +1,7 @@
 # Imports
 import socket
 import json
+from time import sleep
 
 from Network.listen import Listener, msgQueue
 from Log.log import log
@@ -66,12 +67,30 @@ class Tcp:
                 except:
                     return cleanMsg
 
-    ## @brief The Connect() function attempts to connect to the server
-    def Connect(self):
-        try:
-            self.s.connect((self.host, self.port))
-        except:
-            pass
+    ## @brief The Reconnect() function attempts to reconnect to the server
+    def Reconnect(self):
+        connection = False
+
+        # Refresh socket and listener
+        self.s.close()
+        self.listener.EndThread()
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.listener = Listener(listenerName, listenerId, self.s)
+
+        while (not connection):
+            # Try to reconnect to the server
+            try:
+                self.s.connect((self.host, self.port))
+                self.listener.start()
+
+                log.logger.info("Reconnection successful!")
+
+                # Check for incoming messages to empty queue
+                self.Receive()
+                connection = True
+            except:
+                log.logger.warn("Failed to reconnect. Retrying...")
+                sleep(5)
 
     ## @brief The Disconnect() function closes the connection with the server and terminates threads
     def Disconnect(self):

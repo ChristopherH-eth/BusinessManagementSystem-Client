@@ -25,6 +25,7 @@ class Employee:
     #  @param position Employee's position in the company
     #  @param salary The employee's yearly salary
     #  @param empId Employee's id number
+    #  @return Returns serialized JSON string
     def EmployeeInfo(self, firstName, lastName, birthDate, position, salary, empId):
         employee = {
             "firstName": firstName,
@@ -39,9 +40,20 @@ class Employee:
 
         return json.dumps(employee)
 
+    ## @brief The EmployeeInfoRemove() function takes in employee details and returns a JSON string
+    #  @param empId Employee's id number
+    #  @return Returns serialized JSON string
+    def EmployeeInfoRemove(self, empId):
+        employee = {
+            "empId": int(empId)
+        }
+
+        return json.dumps(employee)
+
     ## @brief The LoginInfo() function takes in employee login credentials and returns a JSON string
     #  @param username The username credential of a given employee
     #  @param password The password credential of a given employee
+    #  @return Returns serialized JSON string
     def LoginInfo(self, username, password):
         login = {
             "username": username,
@@ -92,11 +104,11 @@ class Employee:
 
     ## @brief The RemoveEmployee() function attempts to send employee data to the server to be removed from the
     #       database
-    def RemoveEmployee(self, firstName, lastName, birthDate, position, salary, empId):
+    def RemoveEmployee(self, empId):
         fId = "103"
 
         if (funcUtil.IsValid(fId)):
-            employeeJson = self.EmployeeInfo(firstName, lastName, birthDate, position, salary, empId)
+            employeeJson = self.EmployeeInfoRemove(empId)
             log.logger.info("Sending: " + employeeJson)
 
             msg = fId + " " + employeeJson

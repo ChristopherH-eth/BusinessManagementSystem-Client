@@ -116,14 +116,15 @@ class Login():
             username = self.username.text()
             password = self.password.text()
 
-            newTcp.Connect() # Make sure we're still connected to the server
             employee.Login(username, password)
             success = funcUtil.WaitForReply()
 
             if (success):
                 newTcp.Receive()
             else:
+                # Attempt to reconnect to the server on timeout
                 log.logger.error("Host connection timeout")
+                newTcp.Reconnect()
 
         # Clock in
         # Clock out
