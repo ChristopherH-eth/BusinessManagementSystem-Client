@@ -4,7 +4,6 @@ import PyQt5.QtGui as qtg
 import PyQt5.QtCore as qtc
 
 from Util.funcUtil import funcUtil
-from Util.regExUtil import regExUtil
 from Network.tcp import newTcp
 from HR.employee import employee
 from Log.log import log
@@ -57,6 +56,9 @@ class HumanResources():
         self.centralWidget.setLayout(self.outerLayout)
 
         self.outerLayout.setAlignment(qtc.Qt.AlignTop)
+        self.bodyLayout.setAlignment(qtc.Qt.AlignTop)
+        self.sideNavLayout.setAlignment(qtc.Qt.AlignTop)
+        self.innerBodyLayout.setAlignment(qtc.Qt.AlignTop)
 
         # Window dimensions
         MainWindow.setGeometry(400, 200, 1800, 1500)
@@ -84,6 +86,7 @@ class HumanResources():
         self.empSearchLabel = qtw.QLabel("Search Employees")
         self.empSearchLabel.setFont(qtg.QFont("Helvecta", 10))
         self.empSearchLabel.setAlignment(qtc.Qt.AlignCenter)
+        self.empSearchLabel.setFixedWidth(1250)
         self.empSearchSpacer = qtw.QWidget()
         self.empSearchSpacer.setFixedHeight(25)
 
@@ -91,6 +94,7 @@ class HumanResources():
         self.empInfoLabel = qtw.QLabel("Employee Information")
         self.empInfoLabel.setFont(qtg.QFont("Helvecta", 10))
         self.empInfoLabel.setAlignment(qtc.Qt.AlignCenter)
+        self.empInfoLabel.setFixedWidth(1250)
         self.empInfoSpacer = qtw.QWidget()
         self.empInfoSpacer.setFixedHeight(25)
 
@@ -106,17 +110,33 @@ class HumanResources():
         self.lastName = qtw.QLineEdit()
         self.birthDate = qtw.QLineEdit()
         self.salary = qtw.QLineEdit()
-        self.position = qtw.QLineEdit()
+        self.position = qtw.QComboBox()
         self.empId = qtw.QLineEdit()
 
+        self.position.addItems(["Sales Representative", "Manager"])
         self.empId.setMaxLength(5)
 
         ##
         # Input Validators
         ##
 
-        salaryVal = qtg.QDoubleValidator(0.99, 999999.99, 2)
+        # First and Last Names
+        nameRX = qtc.QRegExp("^[A-Z a-z]{1,16}$")
+        nameVal = qtg.QRegExpValidator(nameRX)
+        self.searchName.setValidator(nameVal)
+        self.firstName.setValidator(nameVal)
+        self.lastName.setValidator(nameVal)
+
+        # Date of Birth
+        dobRX = qtc.QRegExp("^(([1-9])|1[0-2])/(([1-9])|(1[0-9])|(2[0-9])|(3[0-1]))/((19[0-9][0-9])|(20[0-9][0-9]))$")
+        dobVal = qtg.QRegExpValidator(dobRX)
+        self.birthDate.setValidator(dobVal)
+
+        # Salary
+        salaryVal = qtg.QDoubleValidator(0.00, 999999.99, 2)
         self.salary.setValidator(salaryVal)
+
+        # Employee Id
         empIdVal = qtg.QIntValidator()
         self.empId.setValidator(empIdVal)
 
@@ -222,13 +242,9 @@ class HumanResources():
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
-            position = self.position.text()
+            position = self.position.currentText()
             salary = self.salary.text()
             empId = self.empId.text()
-
-            # Validate employee information before sending it to the server
-            if (not regExUtil.ValidateEmployeeInfo(firstName, lastName, birthDate, position, salary, empId)):
-                return
 
             newTcp.Connect() # Make sure we're still connected to the server
             employee.AddEmployee(firstName, lastName, birthDate, position, salary, empId)
@@ -247,7 +263,7 @@ class HumanResources():
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
-            position = self.position.text()
+            position = self.position.currentText()
             salary = self.salary.text()
             empId = self.empId.text()
 
@@ -268,7 +284,7 @@ class HumanResources():
             firstName = self.firstName.text()
             lastName = self.lastName.text()
             birthDate = self.birthDate.text()
-            position = self.position.text()
+            position = self.position.currentText()
             salary = self.salary.text()
             empId = self.empId.text()
 

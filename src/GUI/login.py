@@ -17,6 +17,11 @@ from HR.employee import employee
 class Login():
     ## @brief The SetUI() function sets the UI of the main window
     def SetUI(self, MainWindow):
+
+        ##
+        # Window Layouts and Attributes
+        ##
+
         # Set Window Title
         MainWindow.setWindowTitle("Business Management System - Login")
 
@@ -38,27 +43,66 @@ class Login():
         # Window Dimensions
         MainWindow.setGeometry(950, 600, 800, 500)
 
+        ##
+        # Labels
+        ##
+
         # Welcome Label
         self.welcomeLabel = qtw.QLabel("Welcome!\nPlease Login")
         self.welcomeLabel.setFont(qtg.QFont("Helvecta", 18))
         self.welcomeLabel.setAlignment(qtc.Qt.AlignCenter)
-        self.headerLayout.addWidget(self.welcomeLabel)
 
+        ##
         # Input Fields
+        ##
+
+        # Login/Clock In and Out
         self.username = qtw.QLineEdit()
         self.password = qtw.QLineEdit()
 
         self.password.setEchoMode(qtw.QLineEdit.Password)           # Mask password field
 
+        ##
+        # Input Validators
+        ##
+
+        # Username
+        usernameRX = qtc.QRegExp("^[A-Za-z0-9]{1,16}$")
+        usernameVal = qtg.QRegExpValidator(usernameRX)
+        self.username.setValidator(usernameVal)
+
+        # Password
+        passwordRX = qtc.QRegExp("^[A-Za-z0-9!#$&*.()]{1,16}$")
+        passwordVal = qtg.QRegExpValidator(passwordRX)
+        self.password.setValidator(passwordVal)
+
+        ##
+        # Buttons
+        ##
+
+        # Login
+        self.loginButton = qtw.QPushButton("Login", clicked = lambda: Login())
+
+        # Clock In
+        self.clockInButton = qtw.QPushButton("Clock In")
+
+        # Clock Out
+        self.clockOutButton = qtw.QPushButton("Clock Out")
+
+        ##
+        # Build Window
+        ##
+
+        # Window Header
+        self.headerLayout.addWidget(self.welcomeLabel)
+
+        # Login Form
         self.inputFieldLayout.addRow("Username: ", self.username)
         self.inputFieldLayout.addRow("Password: ", self.password)
 
-        # Buttons
-        self.loginButton = qtw.QPushButton("Login", clicked = lambda: Login())
+        # Login/Clock In and Out Buttons
         self.buttonLayout.addWidget((self.loginButton), 0, 0)
-        self.clockInButton = qtw.QPushButton("Clock In")
         self.buttonLayout.addWidget((self.clockInButton), 0, 1)
-        self.clockOutButton = qtw.QPushButton("Clock Out")
         self.buttonLayout.addWidget((self.clockOutButton), 0, 2)
 
         ##
